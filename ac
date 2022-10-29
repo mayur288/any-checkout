@@ -1,0 +1,26 @@
+#!/bin/sh
+
+repo_file_name="$HOME/.acrepos"
+
+# Find git repos on local system and store it
+if [ ! -e $repo_file_name ]
+then
+    echo 'Running the script for first time...'
+    echo 'Scanning folders for git repository...'
+    
+    find /c/ -type d -name .git > $repo_file_name 2> /dev/null
+    
+    echo "Created file with repo list :  $repo_file_name"
+fi
+
+readarray -t repos < $repo_file_name
+declare -A repo_with_names
+
+for index in ${!repos[@]}; do
+    echo -e -n "Enter repo name for [\e[1;34m${repos[$index]}\e[0m]: "
+    read repo_name
+    repo_with_names[$index]="$repo_name : ${repos[$index]}"
+done
+
+
+echo $repo_with_names
