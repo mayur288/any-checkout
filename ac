@@ -19,8 +19,12 @@ declare -A repo_with_names
 for index in ${!repos[@]}; do
     echo -e -n "Enter repo name for [\e[1;34m${repos[$index]}\e[0m]: "
     read repo_name
-    repo_with_names[$index]="$repo_name : ${repos[$index]}"
+    repo_with_names[$index]="$repo_name : $(dirname ${repos[$index]})"
 done
 
+for repo in "${repo_with_names[@]}"
+do
+    echo $repo
+done > $repo_file_name
 
-echo $repo_with_names
+cat $repo_file_name
